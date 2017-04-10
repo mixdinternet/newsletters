@@ -42,6 +42,8 @@ Abra o arquivo `config/app.php` e adicione
 
 É possivel a troca de icone e nomenclatura do pacote em `config/mnewsletters.php`
 
+Através deste arquivo é possível habilitar/desabilitar o campo nome no cadastro/listagem de newsletters
+
 ```
   php artisan vendor:publish --provider="Mixdinternet\Newsletters\Providers\NewslettersServiceProvider" --tag="config"`
 ```

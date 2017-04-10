@@ -20,5 +20,5 @@ Route::group(['middleware' => ['web'], 'prefix' => config('admin.url'), 'as' => 
 
 });
 Route::group(['middleware' => ['web'], 'as' => 'frontend'], function () {
-    Route::post('/newsletter', ['uses' => 'NewslettersController@postNewsletter', 'as' => 'f.newsletter.post']);
+    Route::post('/newsletter', ['uses' => 'NewslettersController@postNewsletter', 'as' => '.newsletter.post']);
 });
