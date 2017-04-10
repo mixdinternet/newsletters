@@ -20,7 +20,7 @@ class NewslettersController extends Controller
         $this->newslettersServices = new NewslettersServices();
     }
 
-    public function postNewsletter(NewslettersRequest $request){
+    public function store(NewslettersRequest $request){
         $data = [
             'email' => $request->email
         ];

@@ -7,11 +7,6 @@ Route::group(['middleware' => ['web'], 'prefix' => config('admin.url'), 'as' => 
         Route::resource('newsletters', 'NewslettersAdminController', [
             'names' => [
                 'index' => '.index',
-                'create' => '.create',
-                'store' => '.store',
-                'edit' => '.edit',
-                'update' => '.update',
-                'show' => '.show',
             ], 'except' => ['destroy']
         ]);
         Route::delete('newsletters/destroy', ['uses' => 'NewslettersAdminController@destroy', 'as' => '.destroy']);
@@ -20,5 +15,5 @@ Route::group(['middleware' => ['web'], 'prefix' => config('admin.url'), 'as' => 
 
 });
 Route::group(['middleware' => ['web'], 'as' => 'frontend'], function () {
-    Route::post('/newsletter', ['uses' => 'NewslettersController@postNewsletter', 'as' => '.newsletter.post']);
+    Route::post('/newsletter', ['uses' => 'NewslettersController@store', 'as' => '.newsletter.store']);
 });
