@@ -5,10 +5,6 @@
 @endsection
 
 @section('btn-insert')
-    {{-- @if((!checkRule('admin.newsletters.create')) && (!$trash))
-        @include('mixdinternet/admix::partials.actions.btn.insert', ['route' => route('admin.newsletters.create')])
-    @endif
-    --}}
     @if((!checkRule('admin.newsletters.trash')) && (!$trash))
         @include('mixdinternet/admix::partials.actions.btn.trash', ['route' => route('admin.newsletters.trash')])
     @endif
@@ -27,9 +23,11 @@
     {!! Form::model($search, ['route' => ($trash) ? 'admin.newsletters.trash' : 'admin.newsletters.index', 'method' => 'get', 'id' => 'form-search'
         , 'class' => '']) !!}
     <div class="row">
-        <div class="col-md-4">
-            {!! BootForm::text('name', 'Nome') !!}
-        </div>
+        @if(config('mnewsletters.fields.name') !== false)
+            <div class="col-md-4">
+                {!! BootForm::text('name', 'Nome') !!}
+            </div>
+        @endif
         <div class="col-md-4">
             {!! BootForm::text('email', 'Email') !!}
         </div>
@@ -38,7 +36,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="pull-right">
-                <a href="/admix/newsletters/download{{ getQueryString(Request::fullUrl()) }}" class="btn btn-default btn-flat" >
+                <a href="/admix/newsletters/download?{{ http_build_query($search) }}" class="btn btn-default btn-flat" >
                     <i class="fa fa-download"></i>
                     <i class="fs-normal hidden-xs texto-download">Download</i>
                 </a>
@@ -72,7 +70,9 @@
                     </th>
                 @endif
                 <th>{!! columnSort('#', ['field' => 'id', 'sort' => 'asc']) !!}</th>
-                <th>{!! columnSort('Nome', ['field' => 'name', 'sort' => 'asc']) !!}</th>
+                @if(config('mnewsletters.fields.name') !== false)
+                    <th>{!! columnSort('Nome', ['field' => 'name', 'sort' => 'asc']) !!}</th>
+                @endif
                 <th>{!! columnSort('Email', ['field' => 'email', 'sort' => 'asc']) !!}</th>
                 <th>{!! columnSort('Data de cadastro', ['field' => 'created_at', 'sort' => 'asc']) !!}</th>
                 <th></th>
@@ -87,13 +87,12 @@
                         </td>
                     @endif
                     <td>{{ $newsletter->id }}</td>
-                    <td>{{ $newsletter->name }}</td>
+                    @if (config('mnewsletters.fields.name') !== false)
+                        <td>{{ $newsletter->name }}</td>
+                    @endif
                     <td>{{ $newsletter->email }}</td>
                     <td>{{ $newsletter->created_at->format('d/m/Y') }}</td>
                     <td>
-                       {{-- !!} @if((!checkRule('admin.newsletters.edit')) && (!$trash))
-                            @include('mixdinternet/admix::partials.actions.btn.edit', ['route' => route('admin.newsletters.edit', $newsletter->id)])
-                        @endif --}}
                         @if((!checkRule('admin.newsletters.destroy')) && (!$trash))
                             @include('mixdinternet/admix::partials.actions.btn.delete', ['route' => route('admin.newsletters.destroy'), 'id' => $newsletter->id])
                         @endif

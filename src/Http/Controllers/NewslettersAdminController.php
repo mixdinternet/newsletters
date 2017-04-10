@@ -22,10 +22,14 @@ class NewslettersAdminController extends AdmixController
         ($trash) ? $query->onlyTrashed() : '';
 
         $search = [];
-        $search['name'] = $request->input('name', '');
+        if(config('mnewsletters.fields.name') !== false) {
+            $search['name'] = $request->input('name', '');
+        }
         $search['email'] = $request->input('email', '');
 
-        ($search['name']) ? $query->where('name', 'LIKE', '%' . $search['name'] . '%') : '';
+        if(config('mnewsletters.fields.name') !== false) {
+            ($search['name']) ? $query->where('name', 'LIKE', '%' . $search['name'] . '%') : '';
+        }
         ($search['email']) ? $query->where('email', 'LIKE', '%' . $search['email'] . '%') : '';
 
         $newsletters = $query->paginate(50);
@@ -35,40 +39,6 @@ class NewslettersAdminController extends AdmixController
         $view['trash'] = $trash;
 
         return view('mixdinternet/newsletters::admin.index', $view);
-    }
-
-    public function create(Newsletter $newsletter)
-    {
-        $view['newsletter'] = $newsletter;
-        return view('mixdinternet/newsletters::admin.form', $view);
-    }
-
-    public function store(CreateEditNewslettersRequest $request)
-    {
-        if (Newsletter::create($request->all())) {
-            Flash::success('Item inserido com sucesso.');
-        } else {
-            Flash::error('Falha no cadastro.');
-        }
-
-        return ($url = session()->get('backUrl')) ? redirect($url) : redirect()->route('admin.newsletters.index');
-    }
-
-    public function edit(Newsletter $newsletter)
-    {
-        $view['newsletter'] = $newsletter;
-        return view('mixdinternet/newsletters::admin.form', $view);
-    }
-
-    public function update(Newsletter $newsletter, CreateEditNewslettersRequest $request)
-    {
-        if ($newsletter->update($request->all())) {
-            Flash::success('Item atualizado com sucesso.');
-        } else {
-            Flash::error('Falha na atualização.');
-        }
-
-        return ($url = session()->get('backUrl')) ? redirect($url) : redirect()->route('admin.newsletters.index');
     }
 
     public function destroy(Request $request)
@@ -104,10 +74,13 @@ class NewslettersAdminController extends AdmixController
         $query = Newsletter::sort();
 
         $search = [];
-        $search['name'] = $request->input('name', '');
+        if(config('mnewsletters.fields.name') !== false) {
+            $search['name'] = $request->input('name', '');
+        }
         $search['email'] = $request->input('email', '');
-
-        ($search['name']) ? $query->where('name', 'LIKE', '%' . $search['name'] . '%') : '';
+        if(config('mnewsletters.fields.name') !== false) {
+            ($search['name']) ? $query->where('name', 'LIKE', '%' . $search['name'] . '%') : '';
+        }
         ($search['email']) ? $query->where('email', 'LIKE', '%' . $search['email'] . '%') : '';
 
         $newsletters = $query->paginate(50);
@@ -119,12 +92,21 @@ class NewslettersAdminController extends AdmixController
         $nameFile = "leads".$user_id.$date.".csv";
 
         $csv = '';
-        $csv .= "\"nome\";\"email\";\"data de cadastro\"\n";
+        if(config('mnewsletters.fields.name') !== false) {
+            $csv .= "\"nome\";\"email\";\"data de cadastro\"\n";
 
-        foreach($newsletters as $row) {
-            $csv .= "\"".$row['name']."\";\"".$row['email']."\";\"".Carbon::parse($row['created_at'])->format('d/m/Y H:i')."\"\n";
+            foreach ($newsletters as $row) {
+                $csv .= "\"" . $row['name'] . "\";\"" . $row['email'] . "\";\"" . Carbon::parse($row['created_at'])->format('d/m/Y H:i') . "\"\n";
+            }
         }
 
+        if(config('mnewsletters.fields.name') == false){
+            $csv .= "\"email\";\"data de cadastro\"\n";
+
+            foreach ($newsletters as $row) {
+                $csv .= "\"" . $row['email'] . "\";\"" . Carbon::parse($row['created_at'])->format('d/m/Y H:i') . "\"\n";
+            }
+        }
         $arquivo = $nameFile;
         // Configurações header para forçar o download
         header ("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
