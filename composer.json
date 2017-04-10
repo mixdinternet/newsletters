@@ -16,9 +16,6 @@
         "laravel/framework": "5.3.*",
     },
     "autoload": {
-        "files": {
-            "packages/mixdinternet/newsletters/src/Http/helpers.php"
-        },
         "psr-4": {
             "Mixdinternet\\Newsletters\\": "src/"
         }
