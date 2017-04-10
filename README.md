@@ -1,5 +1,9 @@
 ## Newsletters
 
+[![Total Downloads](https://poser.pugx.org/mixdinternet/newsletters/d/total.svg)](https://packagist.org/packages/mixdinternet/newsletters)
+[![Latest Stable Version](https://poser.pugx.org/mixdinternet/newsletters/v/stable.svg)](https://packagist.org/packages/mixdinternet/newsletters)
+[![License](https://poser.pugx.org/mixdinternet/newsletters/license.svg)](https://packagist.org/packages/mixdinternet/newsletters)
+
 Pacote inicial de cadastro de newsletters.
 
 ## Dependencias
