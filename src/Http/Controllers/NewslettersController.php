@@ -6,7 +6,7 @@ use Mixdinternet\Newsletters\Newsletter;
 use Illuminate\Http\Request;
 use Caffeinated\Flash\Facades\Flash;
 use Mixdinternet\Newsletters\Services\NewslettersServices;
-use Icecreamy\Frontend\Http\Requests\NewslettersRequest;
+use Mixdinternet\Newsletters\Http\Requests\NewslettersRequest;
 use App\Http\Controllers\Controller;
 use Carbon;
 use Auth;
